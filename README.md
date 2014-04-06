@@ -1,7 +1,7 @@
 SH-Backup
 =========
 
-SH-Backup - easy backup for your sites. Makes backup files and MySQL databases.
+SH-Backup - easy backup for your sites. Makes backup files and MySQL databases. Backup stored 30 days and after will removed.
 
 ### Use
 Enter follow code in terminal:
