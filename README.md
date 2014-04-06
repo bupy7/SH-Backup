@@ -3,9 +3,9 @@ SH-Backup
 
 SH-Backup - easy backup for your sites. Makes backup files and MySQL databases.
 
-```shell
+```
 sh sh_backup.sh -fs ~/my_site -fb ~/backup -u user -p 1234 -d my_db_name [-e name@mail.com]
-``
+```
 
 ### Arguments
 + -fs - Path to directory where content web application.
