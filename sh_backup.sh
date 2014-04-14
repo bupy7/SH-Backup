@@ -15,19 +15,6 @@
 # "-d" - Name database
 # "-e" - Email to receive messages 
 
-sendMail ()
-{
-	if test -z $email; then
-		return
-	fi
-		
-	if [ $1 -eq 1 ]; then
-		mail -s "Backup web-application" "${email}" < $src_path/msg_ok.txt
-	else
-		mail -s "Backup web-application" "${email}" < $src_path/msg_error.txt
-	fi
-}
-
 if [ $# -eq 0 ]; then
 	echo "Fatal error"
 	exit 1;
@@ -54,6 +41,19 @@ src_path=`dirname $script`
 
 readonly d=`date +%s`
 folder_backup=$fb"/backup_"`date --date="@${d}" +%F`"_"`date --date="@${d}" +%H%M%S`
+
+sendMail ()
+{
+	if test -z $email; then
+		return
+	fi
+		
+	if [ $1 -eq 1 ]; then
+		mail -s "Backup web-application" "${email}" < $src_path/msg_ok.txt
+	else
+		mail -s "Backup web-application" "${email}" < $src_path/msg_error.txt
+	fi
+}
 
 #create backup
 mkdir $folder_backup
