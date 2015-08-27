@@ -1,4 +1,4 @@
-SH-Backup
+sh-backup
 =========
 
 SH-Backup - easy backup for your sites. Makes backup files and MySQL databases. Backup stored 30 days and after will removed.
