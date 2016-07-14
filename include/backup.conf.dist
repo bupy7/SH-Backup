@@ -1,0 +1,10 @@
+#!/bin/bash
+
+DB_PASSWORD='example'
+DB_USERNAME='example'
+DB_NAME='example'
+FTP_HOST='000.000.000.000'
+FTP_LOGIN='example'
+FTP_PASSWORD='example'
+FTP_ROOT='example'
+MAX_STORAGE_TIME=2592000 # 30 days
