@@ -6,50 +6,51 @@ ROOT_PATH=$(cd $(dirname $0) && pwd);
 
 print 'Backup...' $BOLD$CYAN
 
-case "$(uname -s)" in
-   Darwin)
-     TMP_DIR=$(mktemp -d -t backup)
-     ;;
-
-   *)
-     TMP_DIR=$(mktemp -dt)
-     ;;
-esac
 TIMESTAMP=$(date +%s)
 DATE_EXPIRE=$(expr $TIMESTAMP - $MAX_STORAGE_TIME)
-OLD_DIR=$(date --date="@$DATE_EXPIRE" +%F)
+case "$(uname -s)" in
+    # OSX
+    Darwin)
+        TMP_DIR=$(mktemp -d -t backup)
+        OLD_DIR=$(date -r $DATE_EXPIRE +%F)
+        ;;
+
+    # Linux
+    Linux)
+        TMP_DIR=$(mktemp -dt)
+        OLD_DIR=$(date --date="@$DATE_EXPIRE" +%F)
+        ;;
+        
+    # Other
+    *)
+        print 'Your system is not supported.' $BOLD$RED
+        exit
+        ;;
+esac
 
 print '- Prepare files...'
-cd $WORK_TREE/public
-tar -czf $TMP_DIR/share.tgz ./share
+cd $ROOT_DIR
+tar -czf $TMP_DIR/root.tgz ./
 
 print '- Prepare database...'
 mysqldump -u$DB_USERNAME -p$DB_PASSWORD $DB_NAME > $TMP_DIR/dump.sql
 
 print '- Archiving...'
 cd $TMP_DIR
-tar -czf backup.tgz share.tgz dump.sql
+tar -czf backup.tgz root.tgz dump.sql
 
 print '- Uploading to FTP...'
 dir_name=$(date +%F)
 file_name="${TIMESTAMP}_${RANDOM}"
-ftp -i -n $FTP_HOST <<EOF
-    prompt
-
-    user $FTP_LOGIN $FTP_PASSWORD
-
-    cd $FTP_ROOT
-
-    mkdir $dir_name
-    cd $dir_name
-
-    put backup.tgz ${file_name}.tgz
-    
-    quit
+lftp <<EOF
+connect $FTP_HOST
+login $FTP_LOGIN $FTP_PASSWORD
+cd $FTP_ROOT
+!mkdir $dir_name || true
+cd $dir_name
+put backup.tgz -o ${file_name}.tgz
+rm -rf $OLD_DIR
 EOF
-
-print '- Deleting old backups...'
-lftp -e 'rm -rf '$OLD_DIR';bye' ftp://$FTP_LOGIN:$FTP_PASSWORD@$FTP_HOST
 
 print '- Cleaning tmp...'
 rm -rf $TMP_DIR
