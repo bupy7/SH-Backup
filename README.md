@@ -15,6 +15,7 @@ Requirements
 
 - [LFTP](https://github.com/lavv17/lftp)
 - Bash
+- MySQL
 - Linux or OS X
 
 Configuration
