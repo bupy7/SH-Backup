@@ -47,6 +47,11 @@ MAX_STORAGE_TIME=2592000 # 30 days
 Usage
 -----
 
+1. Clone of download the sh-backup.
+2. Copy the config file `backup.conf.dist` to `backup.conf`.
+3. Configure your `backup.conf` file.
+4. Run command:
+
 ```bash
 $ bash backup
 Backup...
