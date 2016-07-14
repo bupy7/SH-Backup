@@ -20,7 +20,7 @@ Requirements
 Configuration
 -------------
 
-- `ROOT_DIR`='Path to directory your site or files'
+- `ROOT_DIR`='Path to file directory'
 - `DB_PASSWORD`='Database password'
 - `DB_USERNAME`='Database username'
 - `DB_NAME`='Database name'
