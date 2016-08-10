@@ -45,6 +45,7 @@ file_name="${TIMESTAMP}_${RANDOM}"
 lftp <<EOF
 connect $FTP_HOST
 login $FTP_LOGIN $FTP_PASSWORD
+set ftp:ssl-allow no
 cd $FTP_ROOT
 !mkdir $dir_name || true
 cd $dir_name
