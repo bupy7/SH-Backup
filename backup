@@ -41,7 +41,7 @@ case $DB_TYPE in
 
   # PostgreSQL
   postgresql)
-      export PGPASSWORD=$DB_PASSWORD
+      PGPASSWORD=$DB_PASSWORD
       pg_dump -U $DB_USERNAME -d $DB_NAME > $TMP_DIR/dump.sql
       ;;
 
