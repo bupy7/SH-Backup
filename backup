@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ROOT_PATH=$(cd $(dirname $0) && pwd);
 
@@ -33,7 +33,23 @@ cd $ROOT_DIR
 tar -czf $TMP_DIR/root.tgz ./
 
 print '- Prepare database...'
-mysqldump -u$DB_USERNAME -p$DB_PASSWORD $DB_NAME > $TMP_DIR/dump.sql
+case $DB_TYPE in
+    # MySQL
+    mysql)
+        mysqldump -u$DB_USERNAME -p$DB_PASSWORD $DB_NAME > $TMP_DIR/dump.sql
+        ;;
+
+    # PostgreSQL
+    postgresql)     
+        pg_dump -U$DB_USERNAME -d$DB_NAME > $TMP_DIR/dump.sql
+        ;;
+        
+    # Other
+    *)
+        print 'Your database is not supported.' $BOLD$RED
+        exit
+        ;;
+esac
 
 print '- Archiving...'
 cd $TMP_DIR

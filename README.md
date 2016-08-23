@@ -1,12 +1,12 @@
 sh-backup
 =========
 
-Easy backup files and MySQL database.
+Easy backup files and MySQL/PostgreSQL database.
 
 Feature
 -------
 
-- MySQL Dump
+- MySQL/PostgreSQL Dump
 - Archiving files
 - Upload to FTP
 
@@ -15,13 +15,14 @@ Requirements
 
 - [LFTP](https://github.com/lavv17/lftp)
 - Bash
-- MySQL
+- MySQL or PostgreSQL
 - Linux or OS X
 
 Configuration
 -------------
 
 - `ROOT_DIR`='Path to file directory'
+- `DB_TYPE`='Database type (mysql or postgresql)'
 - `DB_PASSWORD`='Database password'
 - `DB_USERNAME`='Database username'
 - `DB_NAME`='Database name'
@@ -35,6 +36,7 @@ Example:
 
 ```
 ROOT_DIR=/Volumes/Home/User/sites/sh-backup
+DB_TYPE='mysql'
 DB_PASSWORD='1234'
 DB_USERNAME='root'
 DB_NAME='sh-backup'

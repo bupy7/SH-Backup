@@ -1,4 +1,5 @@
 ROOT_DIR='example'
+DB_TYPE='mysql OR postgresql'
 DB_PASSWORD='example'
 DB_USERNAME='example'
 DB_NAME='example'
