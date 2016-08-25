@@ -12,13 +12,13 @@ case "$(uname -s)" in
     # OSX
     Darwin)
         TMP_DIR=$(mktemp -d -t backup)
-        OLD_DIR=$(date -r $DATE_EXPIRE +%F)
+        OLD_DIR=$(date -u -r $DATE_EXPIRE +%F)
         ;;
 
     # Linux
     Linux)
         TMP_DIR=$(mktemp -dt)
-        OLD_DIR=$(date --date="@$DATE_EXPIRE" +%F)
+        OLD_DIR=$(date -u --date="@$DATE_EXPIRE" +%F)
         ;;
         
     # Other
@@ -56,16 +56,17 @@ cd $TMP_DIR
 tar -czf backup.tgz root.tgz dump.sql
 
 print '- Uploading to FTP...'
-dir_name=$(date +%F)
+dir_name=$(date -u +%F)
 file_name="${TIMESTAMP}_${RANDOM}"
 lftp <<EOF
 connect $FTP_HOST
 login $FTP_LOGIN $FTP_PASSWORD
 set ftp:ssl-allow no
 cd $FTP_ROOT
-!mkdir $dir_name || true
+mkdir $dir_name || true
 cd $dir_name
 put backup.tgz -o ${file_name}.tgz
+cd ..
 rm -rf $OLD_DIR
 EOF
 
