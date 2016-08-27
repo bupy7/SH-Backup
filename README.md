@@ -23,6 +23,8 @@ Configuration
 
 - `ROOT_DIR`='Path to file directory'
 - `DB_TYPE`='Database type (mysql or postgresql)'
+- `DB_HOST`='localhost or another'
+- `DB_PORT`='for mysql 3306, for postgresql 5432 or another'
 - `DB_PASSWORD`='Database password'
 - `DB_USERNAME`='Database username'
 - `DB_NAME`='Database name'
@@ -37,6 +39,8 @@ Example:
 ```
 ROOT_DIR=/Volumes/Home/User/sites/sh-backup
 DB_TYPE='mysql'
+DB_HOST='localhost'
+DB_PORT=3306
 DB_PASSWORD='1234'
 DB_USERNAME='root'
 DB_NAME='sh-backup'
