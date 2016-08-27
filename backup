@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ROOT_PATH=$(cd $(dirname $0) && pwd);
+ROOT_PATH=$(cd $(dirname $0) && pwd)
 
 . $ROOT_PATH/include/core
 
@@ -18,7 +18,7 @@ case "$(uname -s)" in
     # Linux
     Linux)
         TMP_DIR=$(mktemp -dt)
-        OLD_DIR=$(date -u --date="@$DATE_EXPIRE" +%F)
+        OLD_DIR=$(date -u --date="@${DATE_EXPIRE}" +%F)
         ;;
         
     # Other
@@ -36,12 +36,21 @@ print '- Prepare database...'
 case $DB_TYPE in
     # MySQL
     mysql)
-        mysqldump -u$DB_USERNAME -p$DB_PASSWORD $DB_NAME > $TMP_DIR/dump.sql
+        mysqldump -u$DB_USERNAME -p$DB_PASSWORD -h$DB_HOST -P$DB_PORT $DB_NAME > $TMP_DIR/dump.sql
         ;;
 
     # PostgreSQL
-    postgresql)     
-        pg_dump -U$DB_USERNAME -d$DB_NAME > $TMP_DIR/dump.sql
+    postgresql)
+        # checking and/or updating ~/.pgpass
+        escPass=$(echo $DB_PASSWORD | sed -E 's/(:|\\)/\\&/g')
+        rexpEscPass=$(echo $escPass | sed -E 's/[?+{|()[]/\\&/g')
+        rexp="^(${DB_HOST}|\*):(${DB_PORT}|\*):(${DB_NAME}|\*):${DB_USERNAME}:${rexpEscPass}$"
+        if [ ! -f ~/.pgpass ] || ! grep -qE $rexp ~/.pgpass; then
+            echo "${DB_HOST}:${DB_PORT}:${DB_NAME}:${DB_USERNAME}:${escPass}" >> ~/.pgpass
+            chmod 600 ~/.pgpass
+        fi
+
+        pg_dump -U$DB_USERNAME -d$DB_NAME -h$DB_HOST -p$DB_PORT -w > $TMP_DIR/dump.sql
         ;;
         
     # Other
