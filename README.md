@@ -6,7 +6,7 @@ Easy backup files and MySQL/PostgreSQL database.
 Feature
 -------
 
-- MySQL/PostgreSQL Dump
+- MySQL/PostgreSQL dump
 - Archiving files
 - Upload to FTP
 
@@ -54,9 +54,9 @@ MAX_STORAGE_TIME=2592000 # 30 days
 Usage
 -----
 
-1. Clone of download the sh-backup.
-2. Copy the config file `backup.conf.dist` to `backup.conf`.
-3. Configure your `backup.conf` file.
+1. Clone or download the sh-backup.
+2. Copy a config file `backup.conf.dist` to `backup.conf`.
+3. Configure your the `backup.conf` file.
 4. Run command:
 
 ```bash
@@ -69,6 +69,14 @@ Backup...
 - Cleaning tmp...                                 
 OK
 ```
+
+### Notes for PostgreSQL
+
+For correct to work `sh-backup` you must have `md5` or `password` auth-method in
+[`pg_hba.conf`](https://www.postgresql.org/docs/9.5/static/auth-pg-hba-conf.html) for your a database.
+
+For authentication uses [`.pgpass`](https://www.postgresql.org/docs/9.5/static/libpq-pgpass.html)
+file. If one not exists will try the file create.
 
 License
 -------

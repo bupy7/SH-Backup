@@ -32,24 +32,26 @@ print '- Prepare files...'
 cd $ROOT_DIR
 tar -czf $TMP_DIR/root.tgz ./
 
-print '- Prepare database...'
 case $DB_TYPE in
     # MySQL
     mysql)
+        print '- Prepare database...'
         mysqldump -u$DB_USERNAME -p$DB_PASSWORD -h$DB_HOST -P$DB_PORT $DB_NAME > $TMP_DIR/dump.sql
         ;;
 
     # PostgreSQL
     postgresql)
-        # checking and/or updating ~/.pgpass
-        escPass=$(echo $DB_PASSWORD | sed -E 's/(:|\\)/\\&/g')
-        rexpEscPass=$(echo $escPass | sed -E 's/[?+{|()[]/\\&/g')
-        rexp="^(${DB_HOST}|\*):(${DB_PORT}|\*):(${DB_NAME}|\*):${DB_USERNAME}:${rexpEscPass}$"
+        print '- - Checking  ~/.pgpass file...'
+        esc_pass=$(echo $DB_PASSWORD | sed -E 's/(:|\\)/\\&/g')
+        rexp_esc_pass=$(echo $esc_pass | sed -E 's/[?+{|()[]/\\&/g')
+        rexp="^(${DB_HOST}|\*):(${DB_PORT}|\*):(${DB_NAME}|\*):${DB_USERNAME}:${rexp_esc_pass}$"
         if [ ! -f ~/.pgpass ] || ! grep -qE $rexp ~/.pgpass; then
-            echo "${DB_HOST}:${DB_PORT}:${DB_NAME}:${DB_USERNAME}:${escPass}" >> ~/.pgpass
+            print '- - Creating ~/.pgpass file...' $YELLOW
+            echo "${DB_HOST}:${DB_PORT}:${DB_NAME}:${DB_USERNAME}:${esc_pass}" >> ~/.pgpass
             chmod 600 ~/.pgpass
         fi
 
+        print '- Prepare database...'
         pg_dump -U$DB_USERNAME -d$DB_NAME -h$DB_HOST -p$DB_PORT -w > $TMP_DIR/dump.sql
         ;;
         
@@ -83,3 +85,4 @@ print '- Cleaning tmp...'
 rm -rf $TMP_DIR
 
 print 'OK' $BOLD$GREEN
+
