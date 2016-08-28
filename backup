@@ -41,6 +41,7 @@ case $DB_TYPE in
 
     # PostgreSQL
     postgresql)
+        print '- Authentication...'
         print '- - Checking  ~/.pgpass file...'
         esc_pass=$(echo $DB_PASSWORD | sed -E 's/(:|\\)/\\&/g')
         rexp_esc_pass=$(echo $esc_pass | sed -E 's/[?+{|()[]/\\&/g')
