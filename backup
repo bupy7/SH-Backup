@@ -74,7 +74,7 @@ connect $FTP_HOST
 login $FTP_LOGIN $FTP_PASSWORD
 set ftp:ssl-allow $FTP_SSL
 cd $FTP_ROOT
-mkdir $dir_name || true
+mkdir -f $dir_name
 cd $dir_name
 put backup.tgz -o ${file_name}.tgz
 cd ..
