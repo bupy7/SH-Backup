@@ -28,6 +28,7 @@ Configuration
 - `DB_PASSWORD`='Database password'
 - `DB_USERNAME`='Database username'
 - `DB_NAME`='Database name'
+- `FTP_SSL` - Use or no SSL. By default 'no'.
 - `FTP_HOST`='FTP IP-address'
 - `FTP_LOGIN`='FTP login'
 - `FTP_PASSWORD`='FTP password'
@@ -44,6 +45,7 @@ DB_PORT=3306
 DB_PASSWORD='1234'
 DB_USERNAME='root'
 DB_NAME='sh-backup'
+FTP_SSL='no'
 FTP_HOST='100.100.100.100'
 FTP_LOGIN='ftp_user'
 FTP_PASSWORD='ftp_pass'
